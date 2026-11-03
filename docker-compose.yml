@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: mawabro-livekit
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml
+    ports:
+      # HTTP / WebSocket signaling API
+      - "7880:7880"
+      # TCP fallback media port
+      - "7881:7881"
+      # WebRTC UDP traffic ports (for local testing/Oracle VM host)
+      - "50000-50020:50000-50020/udp"
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
+    environment:
+      - LIVEKIT_KEYS=devkey: secret_mawabro_super_secure_key_123
+
+  # Optional web token generator helper for quick token generation
+  caddy:
+    image: caddy:alpine
+    container_name: mawabro-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    profiles:
+      - production
+
+volumes:
+  caddy_data:
+  caddy_config:

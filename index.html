@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <title>MawaBro v1.8</title>
+    <script>
+      // Suppress default WebView2 browser context menu globally
+      document.addEventListener('contextmenu', function (e) {
+        var t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable || (t.closest && (t.closest('input') || t.closest('textarea'))))) {
+          return;
+        }
+        e.preventDefault();
+      });
+    </script>
+  </head>
+  <body class="bg-[#1e1f22] text-[#dbdee1] overflow-hidden select-none font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

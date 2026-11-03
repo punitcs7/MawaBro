@@ -1,0 +1,21 @@
+port: 7880
+bind_addresses:
+  - ""
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 50020
+  use_external_ip: false
+
+audio:
+  # Enable Opus high definition audio
+  opus:
+    sample_rate: 48000
+    channels: 2
+    bitrate: 128000
+
+keys:
+  devkey: secret_mawabro_super_secure_key_123
+
+logging:
+  level: info

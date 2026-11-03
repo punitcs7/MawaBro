@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "MawaBro",
+  "version": "1.8.0",
+  "identifier": "com.mawabro.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "MawaBro v1.8",
+        "width": 1360,
+        "height": 840,
+        "minWidth": 960,
+        "minHeight": 640,
+        "center": true,
+        "decorations": true,
+        "transparent": false
+      },
+      {
+        "label": "overlay",
+        "title": "MawaBro Overlay",
+        "url": "/index.html#/overlay",
+        "width": 260,
+        "height": 450,
+        "x": 24,
+        "y": 48,
+        "transparent": true,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "shadow": false,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "createUpdaterArtifacts": true,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": {
+        "template": "custom-installer.nsi",
+        "installerHooks": "nsis-hooks.nsh"
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDAzN0RCMUM1N0I5NkJBMkQKUldRdHVwWjd4YkY5QXpkY0ozMFNkTzZkamg4VHRNcTA2TlJWOXJzd1RGMExwVDl6TmYwODJNRDEK",
+      "endpoints": [
+        "https://github.com/punitcs7/MawaBro/releases/latest/download/latest.json"
+      ]
+    }
+  }
+}

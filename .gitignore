@@ -1,0 +1,28 @@
+# Node dependencies and build
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Tauri / Rust build targets
+src-tauri/target/
+*.exe
+*.msi
+*.rar
+MawaBro v1.8/
+
+# Tauri private signing keys (NEVER COMMIT)
+*.key
+src-tauri/*.key
+src-tauri/mawabro.key
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS and Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,23 @@
+[package]
+name = "mawabro"
+version = "1.8.0"
+description = "MawaBro - Lightweight zero-cost Discord alternative"
+authors = ["MawaBro Team"]
+edition = "2021"
+
+[lib]
+name = "mawabro_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0", features = ["tray-icon"] }
+tauri-plugin-updater = "2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rdev = "0.5.3"
+lazy_static = "1.4"
+parking_lot = "0.12"
+livekit-api = { version = "0.10", default-features = false, features = ["access-token"] }
