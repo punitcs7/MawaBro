@@ -55,7 +55,6 @@
     ],
     "windows": {
       "nsis": {
-        "template": "custom-installer.nsi",
         "installerHooks": "nsis-hooks.nsh"
       }
     }
