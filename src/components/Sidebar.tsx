@@ -116,7 +116,7 @@ export const Sidebar: React.FC = () => {
             <span className="font-bold tracking-tight text-white text-sm">MawaBro HQ</span>
           </span>
           <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono font-bold tracking-wide border border-cyan-500/30">
-            v1.8.1
+            v1.8.2
           </span>
         </div>
 

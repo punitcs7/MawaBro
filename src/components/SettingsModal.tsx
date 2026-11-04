@@ -176,7 +176,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-bold text-white">Voice & Audio Settings</h2>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-gradient-to-r from-cyan-500/20 to-fuchsia-500/20 text-cyan-400 font-mono font-bold border border-cyan-500/30">
-                  v1.8.1
+                  v1.8.2
                 </span>
               </div>
               <p className="text-xs text-[#b5bac1]">Configure Devices, AI Noise Filter, In-Game Overlay & PTT</p>

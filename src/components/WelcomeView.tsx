@@ -169,7 +169,7 @@ export const WelcomeView: React.FC = () => {
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-mono uppercase tracking-wider shadow-sm">
-                      MawaBro v1.8.1
+                      MawaBro v1.8.2
                     </span>
                     <span className="text-xs text-cyan-400 font-semibold flex items-center gap-1">
                       <Zap className="w-3.5 h-3.5" /> High Performance
