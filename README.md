@@ -1,8 +1,24 @@
-# MawaBro - Zero-Cost Lightweight Discord Alternative
+# MawaBro HQ v2.0 - Zero-Cost Lightweight Discord Alternative
 
-**MawaBro** is an ultra-lightweight Windows desktop communication application built with **Tauri 2.0 (Rust)**, **React 18**, **TypeScript**, **Tailwind CSS**, and **LiveKit WebRTC SFU**.
+[![Version](https://img.shields.io/badge/version-2.0.0-cyan.svg)](https://github.com/punitcs7/MawaBro/releases/latest)
+[![Platform](https://img.shields.io/badge/platform-Windows%20x64-blue.svg)](https://github.com/punitcs7/MawaBro/releases/latest)
+[![Tauri](https://img.shields.io/badge/Tauri-2.0%20(Rust)-orange.svg)](https://tauri.app/)
+[![React](https://img.shields.io/badge/React-18%20%7C%20TypeScript-61dafb.svg)](https://reactjs.org/)
+[![LiveKit](https://img.shields.io/badge/LiveKit-WebRTC%20SFU-magenta.svg)](https://livekit.io/)
 
-It features low-latency voice channels, high-clarity 1080p & 4K screen sharing, a driver-less in-app soundboard, and a synchronized group music player.
+**MawaBro** is an ultra-lightweight, high-performance Windows desktop communication suite built with **Tauri 2.0 (Rust backend)**, **React 18**, **TypeScript**, **Tailwind CSS**, and **LiveKit WebRTC SFU**. 
+
+Designed as a zero-cost, privacy-first Discord alternative for gamers and squads, MawaBro delivers sub-millisecond audio responsiveness, pristine 4K 60FPS screen streaming, a transparent in-game overlay, an in-app driverless soundboard, and a bulletproof 1-click auto-updater.
+
+---
+
+## 📥 Download & Installation
+
+* **Latest Release**: [GitHub Releases](https://github.com/punitcs7/MawaBro/releases/latest)
+* **Direct Download**: [**`MawaBro_2.0.0_x64-setup.exe`**](https://github.com/punitcs7/MawaBro/releases/latest/download/MawaBro_2.0.0_x64-setup.exe)
+
+> **Windows SmartScreen Note**: Because MawaBro is an independent open-source release without an enterprise EV certificate, Windows Defender SmartScreen may display *"Windows protected your PC"*. Simply click **"More info"** ➔ **"Run anyway"**.  
+> **Automatic Updates**: Once installed, MawaBro automatically checks for new releases on startup and upgrades in-place on the 1st attempt.
 
 ---
 
@@ -13,27 +29,44 @@ It features low-latency voice channels, high-clarity 1080p & 4K screen sharing, 
 - Native 48kHz dual-channel Opus audio with adaptive bitrate, acoustic echo cancellation (AEC), and noise suppression (ANS).
 - Active speaker detection with visual glowing green ring indicators.
 
-### 2. High-Clarity Screen Share (1080p & 4K)
+### 2. High-Clarity Screen Share (1080p & 4K 60FPS)
 Configurable streaming presets via `navigator.mediaDevices.getDisplayMedia`:
 - **1080p @ 60 FPS** (6 Mbps Bitrate): Ultra-smooth gaming clarity.
 - **4K @ 30 FPS** (15 Mbps Bitrate): Desktop productivity & cinema viewing.
 - **4K @ 60 FPS** (20 Mbps Bitrate): Enthusiast master-quality streaming.
-- **System Audio Capture**: Stereo system sound loopback for games and movies.
+- **Theater Mode**: Full-screen theater view with participant sidecar feeds (`ScreenShareTheater.tsx`).
+- **System Audio Capture**: High-fidelity stereo system sound loopback for games and movies.
 
-### 3. Global Push-to-Talk (PTT) Hook
-- Implemented in Rust backend (`src-tauri/src/lib.rs`) using low-level OS hooks (`rdev` / Windows `SetWindowsHookExW`).
-- Intercepts configurable PTT key combinations (e.g., `CapsLock`, `Mouse4`, `F13-F24`) even when 3rd-party games are running in **exclusive full-screen mode**.
-- Emits real-time IPC events (`ptt-active`) to the Tauri webview with sub-millisecond responsiveness.
+### 3. Transparent In-Game Squad HUD Overlay
+- Secondary Tauri desktop window (`overlay`) initialized with transparency, `alwaysOnTop: true`, `skipTaskbar: true`, and `decorations: false`.
+- **Zero-Latency Click-Through**: Low-level cursor event pass-through (`window.set_ignore_cursor_events(true)`), allowing uninterrupted aiming and gameplay.
+- Displays real-time squad speaker status and glowing voice rings directly on top of full-screen borderless games.
+- Toggleable via top header button, sidebar shortcut, or settings modal.
 
-### 4. In-App Driverless Soundboard
-- Custom soundboard pads storing `.mp3`/`.wav` clips in local application storage.
-- Uses the **Web Audio API (`AudioContext`)** to mix audio clips directly into the microphone stream before transmitting it over WebRTC. **Channel members hear the clips without needing virtual audio cable drivers (VB-Cable).**
-- Direct local monitoring route (`monitorGainNode`) so you hear your own sound triggers through your headphones in real time.
+### 4. Global Push-to-Talk (PTT) Hook
+- Implemented in the Rust backend (`src-tauri/src/lib.rs`) using low-level OS hooks (`rdev` / Windows `SetWindowsHookExW`).
+- Intercepts configurable PTT key combinations (e.g., `CapsLock`, `Mouse4`, `Mouse5`, `F13-F24`) even when 3rd-party games run in **exclusive full-screen mode**.
+- Real-time IPC events (`ptt-active`) dispatched to the webview with sub-millisecond responsiveness.
 
-### 5. Synchronized Group Music Player
-- Embedded YouTube IFrame player synchronized across room members via LiveKit DataMessages (`room.localParticipant.publishData`).
-- Carries payloads: `{ type: "PLAY" | "PAUSE" | "SEEK", trackUrl, timestamp, sentAt }`.
-- Auto-sync algorithm accounts for network flight time and keeps all room members strictly within **150ms** of the host.
+### 5. In-App Driverless Soundboard
+- Custom soundboard pads storing `.mp3`/`.wav` audio clips in local storage.
+- Powered by the **Web Audio API (`AudioContext`)** composite mixer (`services/audioEngine.ts`) mixing clips directly into your microphone stream before WebRTC transmission.
+- **No virtual audio cable drivers (VB-Cable) required** — squad members hear your soundboard triggers with perfect clarity.
+- Direct local monitoring route (`monitorGainNode`) so you hear your own soundboard triggers through your headphones in real time.
+
+### 6. Synchronized Group Music Player
+- Synchronized YouTube player across all room members via LiveKit DataMessages (`room.localParticipant.publishData`).
+- Supported actions: `{ type: "PLAY" | "PAUSE" | "SEEK", trackUrl, timestamp, sentAt }`.
+- Auto-sync algorithm compensates for network latency and keeps all listeners locked within **150ms** of the host.
+
+### 7. Windows System Tray Minimization & Background Audio
+- Native Windows system tray integration via Tauri 2.0 `TrayIconBuilder`.
+- System tray context menu: *"Show MawaBro HQ"*, *"Mute / Unmute"*, *"Deafen / Undeafen"*, and *"Quit"*.
+- Audio streaming and Push-to-Talk remain active in the background when the main window is closed to tray.
+
+### 8. Bulletproof 1-Click Auto-Updater
+- Integrated Tauri v2 updater (`@tauri-apps/plugin-updater`).
+- Overridden NSIS pre-install macros (`!macroundef CheckIfAppIsRunning`) to bypass Windows Restart Manager locks and ensure smooth 1st-attempt automated installations.
 
 ---
 
@@ -41,38 +74,47 @@ Configurable streaming presets via `navigator.mediaDevices.getDisplayMedia`:
 
 ```
 MawaBro/
+├── .github/
+│   └── workflows/
+│       └── release.yml                  # Automated multi-platform build & signing pipeline
 ├── docs/
-│   ├── discord-architecture-notes.md    # REA reverse-engineering analysis of Discord
-│   └── VERSIONING-AND-RELEASES.md       # Version history and release tracking
+│   ├── discord-architecture-notes.md    # Reverse-engineering notes on Discord architecture
+│   └── VERSIONING-AND-RELEASES.md       # Comprehensive version history & release logs
 ├── src/
 │   ├── components/
-│   │   ├── GroupMusicPlayer.tsx         # Synchronized YouTube group player
-│   │   ├── ScreenShareModal.tsx         # 1080p/4K preset selection modal
-│   │   ├── SettingsModal.tsx            # PTT keybinding recorder & audio DSP settings
-│   │   ├── Sidebar.tsx                  # Discord-style channels and user status dock
-│   │   ├── Soundboard.tsx               # Audio pad grid with volume controls
+│   │   ├── ChatPanel.tsx                # Text channel message thread & composer
+│   │   ├── CreateChannelModal.tsx       # Custom voice and text channel creator
+│   │   ├── GroupMusicPlayer.tsx         # Synchronized YouTube squad music player
+│   │   ├── JoinCodeModal.tsx            # Quick-Join invite code modal
+│   │   ├── OverlayView.tsx              # Transparent in-game squad HUD overlay
+│   │   ├── ScreenShareModal.tsx         # 1080p/4K screen share preset selector
+│   │   ├── ScreenShareTheater.tsx       # Maximized theater stream viewer
+│   │   ├── SettingsModal.tsx            # Audio devices, DSP, PTT keybinding recorder
+│   │   ├── Sidebar.tsx                  # Channel browser, user card, mute/deafen dock
+│   │   ├── Soundboard.tsx               # Audio pad grid with master volume controls
+│   │   ├── TextChannelView.tsx          # Real-time text chat channel view
+│   │   ├── UpdateModal.tsx              # In-app background updater modal
 │   │   ├── VoiceRoom.tsx                # Core WebRTC engine & participant video grid
-│   │   ├── WelcomeView.tsx              # Channel dashboard & architectural summary
-│   │   ├── OverlayView.tsx              # In-game squad HUD overlay
-│   │   └── UpdateModal.tsx              # In-app auto-updater modal
+│   │   └── WelcomeView.tsx              # Dashboard summary & quick shortcuts
 │   ├── services/
 │   │   ├── audioEngine.ts               # Web Audio API composite audio mixer
+│   │   ├── livekitToken.ts              # LiveKit JWT access token generator
 │   │   └── tauriPtt.ts                  # Tauri IPC bridge for global PTT hook
 │   ├── store/
-│   │   └── useAppStore.ts               # Zustand application state management
+│   │   └── useAppStore.ts               # Zustand global application state
 │   ├── types/
-│   │   └── index.ts                     # TypeScript definitions & screen share configs
-│   ├── App.tsx                          # Root application container
-│   ├── main.tsx                         # Entry point
+│   │   └── index.ts                     # TypeScript definitions & stream presets
+│   ├── App.tsx                          # Root React application container
+│   ├── main.tsx                         # Client application entry point
 │   └── index.css                        # Tailwind CSS styles and glow animations
 ├── src-tauri/
 │   ├── capabilities/
 │   │   └── default.json                 # Tauri 2.0 window security capabilities
 │   ├── src/
-│   │   ├── lib.rs                       # Rust backend & background OS hook thread
+│   │   ├── lib.rs                       # Rust backend, PTT thread, & window event loops
 │   │   └── main.rs                      # Tauri runtime entry point
-│   ├── Cargo.toml                       # Rust dependencies (tauri, rdev, serde)
-│   ├── nsis-hooks.nsh                   # Custom NSIS installer hooks
+│   ├── Cargo.toml                       # Rust dependencies (tauri, rdev, serde, livekit-api)
+│   ├── nsis-hooks.nsh                   # Custom NSIS installer process cleanup hooks
 │   └── tauri.conf.json                  # Desktop window and packaging metadata
 ├── docker-compose.yml                   # Free self-hosted LiveKit SFU container
 ├── livekit.yaml                         # High-fidelity Opus audio configuration
@@ -85,18 +127,18 @@ MawaBro/
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ Getting Started (Development)
 
 ### 1. Install Dependencies
 ```bash
 npm install
 ```
 
-### 2. Run Frontend Development Server
+### 2. Run Frontend Web Client
 ```bash
 npm run dev
 ```
-Open [http://localhost:1420](http://localhost:1420) in your browser. The app runs in interactive mode with full voice, soundboard, and screen-sharing capabilities.
+Runs at [http://localhost:1420](http://localhost:1420) with interactive voice, soundboard, and screen share testing.
 
 ### 3. Run Desktop Application (Tauri 2.0)
 *Prerequisite: Visual Studio C++ Build Tools installed on Windows.*
@@ -104,13 +146,8 @@ Open [http://localhost:1420](http://localhost:1420) in your browser. The app run
 npm run tauri dev
 ```
 
-### 4. Official Windows Installer & Releases
-The official release is distributed via the **Windows Setup Installer** (`MawaBro_<version>_x64-setup.exe`):
-- **Automated In-App Updates**: Built-in Tauri v2 updater automatically detects and installs new releases seamlessly on the 1st attempt.
-- **Full Windows Integration**: Automatically configures Start Menu shortcuts, desktop icons, and proper background process cleanup hooks.
-- **Latest Release Download**: [GitHub Releases](https://github.com/punitcs7/MawaBro/releases/latest)
-
-To rebuild the release installer locally:
+### 4. Build Production Installer
+Generates `MawaBro_2.0.0_x64-setup.exe` in `src-tauri/target/release/bundle/nsis/`:
 ```bash
 npm run tauri build
 ```
@@ -122,15 +159,15 @@ npm run tauri build
 ### Option A: LiveKit Cloud Free Tier (Recommended)
 1. Sign up for free at [cloud.livekit.io](https://cloud.livekit.io) (Free forever: 50 GB/month bandwidth, 10 peak rooms).
 2. Create a project and copy your WebSocket URL.
-3. Configure `.env` or enter the credentials directly in MawaBro's in-app Settings modal:
+3. Configure `.env` or enter credentials directly in MawaBro's Settings modal:
    ```env
    VITE_LIVEKIT_URL=wss://your-project.livekit.cloud
    VITE_LIVEKIT_TOKEN=your-generated-room-token
    ```
 
 ### Option B: Local Docker / Oracle Cloud Always-Free VM
-Run the included LiveKit SFU instance:
+Run the included LiveKit SFU container:
 ```bash
 docker compose up -d
 ```
-This spins up a local LiveKit SFU on `ws://localhost:7880` with pre-configured 48kHz Opus audio routing.
+Spins up a local LiveKit SFU on `ws://localhost:7880` with pre-configured 48kHz Opus audio routing.
