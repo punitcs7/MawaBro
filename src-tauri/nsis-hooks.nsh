@@ -1,9 +1,14 @@
 !include "x64.nsh"
 
-; Early GUI callback executed before any pages or Section Install run.
-; Ensures any existing or lingering MawaBro instances from previous versions
-; are cleanly and forcefully terminated before Windows Restart Manager checks run.
-Function .onGUIInit
+; Modern UI 2 custom GUI initialization hooks.
+; Executed immediately when the installer/uninstaller GUI initializes, BEFORE
+; any pages or Section Install / CheckIfAppIsRunning execute.
+; Forcefully terminates any running MawaBro instances using 64-bit System32 taskkill
+; so that Windows Restart Manager finds 0 processes and never aborts with "Failed to kill".
+!define MUI_CUSTOMFUNCTION_GUIINIT MawaBroGUIInit
+!define MUI_CUSTOMFUNCTION_UNGUIINIT un.MawaBroUnGUIInit
+
+Function MawaBroGUIInit
   ${If} ${RunningX64}
     ${DisableX64FSRedirection}
     nsExec::Exec 'taskkill.exe /F /IM "mawabro.exe" /T'
@@ -18,7 +23,7 @@ Function .onGUIInit
   Sleep 1500
 FunctionEnd
 
-Function un.onGUIInit
+Function un.MawaBroUnGUIInit
   ${If} ${RunningX64}
     ${DisableX64FSRedirection}
     nsExec::Exec 'taskkill.exe /F /IM "mawabro.exe" /T'
