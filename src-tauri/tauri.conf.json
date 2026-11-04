@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "MawaBro",
-  "version": "1.8.5",
+  "version": "2.0.0",
   "identifier": "com.mawabro.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "MawaBro v1.8.5",
+        "title": "MawaBro v2.0",
         "width": 1360,
         "height": 840,
         "minWidth": 960,

@@ -42,7 +42,8 @@ Configurable streaming presets via `navigator.mediaDevices.getDisplayMedia`:
 ```
 MawaBro/
 ├── docs/
-│   └── discord-architecture-notes.md    # REA reverse-engineering analysis of Discord
+│   ├── discord-architecture-notes.md    # REA reverse-engineering analysis of Discord
+│   └── VERSIONING-AND-RELEASES.md       # Version history and release tracking
 ├── src/
 │   ├── components/
 │   │   ├── GroupMusicPlayer.tsx         # Synchronized YouTube group player
@@ -51,7 +52,9 @@ MawaBro/
 │   │   ├── Sidebar.tsx                  # Discord-style channels and user status dock
 │   │   ├── Soundboard.tsx               # Audio pad grid with volume controls
 │   │   ├── VoiceRoom.tsx                # Core WebRTC engine & participant video grid
-│   │   └── WelcomeView.tsx              # Channel dashboard & architectural summary
+│   │   ├── WelcomeView.tsx              # Channel dashboard & architectural summary
+│   │   ├── OverlayView.tsx              # In-game squad HUD overlay
+│   │   └── UpdateModal.tsx              # In-app auto-updater modal
 │   ├── services/
 │   │   ├── audioEngine.ts               # Web Audio API composite audio mixer
 │   │   └── tauriPtt.ts                  # Tauri IPC bridge for global PTT hook
@@ -69,6 +72,7 @@ MawaBro/
 │   │   ├── lib.rs                       # Rust backend & background OS hook thread
 │   │   └── main.rs                      # Tauri runtime entry point
 │   ├── Cargo.toml                       # Rust dependencies (tauri, rdev, serde)
+│   ├── nsis-hooks.nsh                   # Custom NSIS installer hooks
 │   └── tauri.conf.json                  # Desktop window and packaging metadata
 ├── docker-compose.yml                   # Free self-hosted LiveKit SFU container
 ├── livekit.yaml                         # High-fidelity Opus audio configuration
@@ -100,20 +104,16 @@ Open [http://localhost:1420](http://localhost:1420) in your browser. The app run
 npm run tauri dev
 ```
 
-### 4. Production Windows Executable & Installers
-Ready-to-use binaries are maintained in the active version release directory [**`MawaBro v2/`**](file:///c:/Users/punit/Documents/Antigravity-Projects/MawaBro%20(Discord%20Alternative)/MawaBro%20v2):
-- [**`MawaBro v2/MawaBro-Setup.exe`**](file:///c:/Users/punit/Documents/Antigravity-Projects/MawaBro%20(Discord%20Alternative)/MawaBro%20v2/MawaBro-Setup.exe): Setup installer with automated background process cleanup (3.3 MB).
-- [**`MawaBro v2/MawaBro-Portable.exe`**](file:///c:/Users/punit/Documents/Antigravity-Projects/MawaBro%20(Discord%20Alternative)/MawaBro%20v2/MawaBro-Portable.exe): Portable single-file executable (no installation required, 10.5 MB).
-- [**`MawaBro v2/MawaBro.msi`**](file:///c:/Users/punit/Documents/Antigravity-Projects/MawaBro%20(Discord%20Alternative)/MawaBro%20v2/MawaBro.msi): Enterprise Windows MSI installer package (4.3 MB).
-- [**`MawaBro.exe`**](file:///c:/Users/punit/Documents/Antigravity-Projects/MawaBro%20(Discord%20Alternative)/MawaBro.exe): Root workspace standalone executable.
+### 4. Official Windows Installer & Releases
+The official release is distributed via the **Windows Setup Installer** (`MawaBro_<version>_x64-setup.exe`):
+- **Automated In-App Updates**: Built-in Tauri v2 updater automatically detects and installs new releases seamlessly on the 1st attempt.
+- **Full Windows Integration**: Automatically configures Start Menu shortcuts, desktop icons, and proper background process cleanup hooks.
+- **Latest Release Download**: [GitHub Releases](https://github.com/punitcs7/MawaBro/releases/latest)
 
-> **Release Rule**: For each future update or fix, the previous version folder (e.g. `MawaBro v1/`) will be replaced with a newly generated version folder (e.g. `MawaBro v2/`). Details tracked in [`docs/VERSIONING-AND-RELEASES.md`](file:///c:/Users/punit/Documents/Antigravity-Projects/MawaBro%20(Discord%20Alternative)/docs/VERSIONING-AND-RELEASES.md).
-
-To rebuild the release package at any time:
+To rebuild the release installer locally:
 ```bash
 npm run tauri build
 ```
-
 
 ---
 

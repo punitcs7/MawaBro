@@ -26,7 +26,21 @@ This document tracks the release versioning rules and history for **MawaBro**.
 
 ## 📜 Version History
 
-### **MawaBro v1.8.5 (MawaBro v1.8.5)** - *Current (Changelog: Minor update - Overrode CheckIfAppIsRunning to Permanently Eliminate Failed to Kill Abort)*
+### **MawaBro v2.0.0 (MawaBro v2.0)** - *Current (Changelog: Major Milestone Release - Production Setup Installer & Bulletproof Auto-Updater)*
+- **Major Milestone: Unified Official Windows Setup**:
+  - Deprecated and removed legacy ad-hoc portable builds in favor of the official Windows Setup Installer (`MawaBro_2.0.0_x64-setup.exe`).
+  - Guarantees clean `%LOCALAPPDATA%\MawaBro` binary installation, proper Start Menu shortcuts, and seamless background updater integration.
+- **Permanent Fix for Auto-Updater Aborts**:
+  - Overrode Tauri's `CheckIfAppIsRunning` macro with `!macroundef CheckIfAppIsRunning` to permanently bypass the Windows Restart Manager bug (Tauri Issue #16277).
+  - All future updates install seamlessly on the 1st attempt without user intervention or retry prompts.
+- **Production-Ready Core Feature Set**:
+  - Transparent in-game squad HUD overlay with zero-latency cursor click-through.
+  - Driver-less in-app soundboard with Web Audio API loopback mixer.
+  - Low-level OS Push-to-Talk hook with hardware key normalization.
+  - Synchronized group YouTube music player.
+  - Windows system tray minimization and background voice continuity.
+
+### **MawaBro v1.8.5 (MawaBro v1.8.5)** - *Archived (Changelog: Minor update - Overrode CheckIfAppIsRunning to Permanently Eliminate Failed to Kill Abort)*
 - **Overrode `CheckIfAppIsRunning` Macro**:
   - Nullified the faulty Windows Restart Manager check (`RmShutdown`) via `!macroundef CheckIfAppIsRunning` and replaced it with direct System32 `taskkill` termination that never aborts the installer with `Failed to kill MawaBro`.
   - Guaranteed clean NSIS execution stack by popping all `nsExec::Exec` return values (`Pop $0`).

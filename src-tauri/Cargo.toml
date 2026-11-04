@@ -1,6 +1,6 @@
 [package]
 name = "mawabro"
-version = "1.8.5"
+version = "2.0.0"
 description = "MawaBro - Lightweight zero-cost Discord alternative"
 authors = ["MawaBro Team"]
 edition = "2021"

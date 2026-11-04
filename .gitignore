@@ -9,7 +9,7 @@ src-tauri/target/
 *.exe
 *.msi
 *.rar
-MawaBro v1.8/
+MawaBro v*/
 
 # Tauri private signing keys (NEVER COMMIT)
 *.key
