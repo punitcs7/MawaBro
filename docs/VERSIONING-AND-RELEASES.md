@@ -26,7 +26,14 @@ This document tracks the release versioning rules and history for **MawaBro**.
 
 ## 📜 Version History
 
-### **MawaBro v1.8.4 (MawaBro v1.8.4)** - *Current (Changelog: Minor update - Fix Auto-Updater Process Race)*
+### **MawaBro v1.8.5 (MawaBro v1.8.5)** - *Current (Changelog: Minor update - Overrode CheckIfAppIsRunning to Permanently Eliminate Failed to Kill Abort)*
+- **Overrode `CheckIfAppIsRunning` Macro**:
+  - Nullified the faulty Windows Restart Manager check (`RmShutdown`) via `!macroundef CheckIfAppIsRunning` and replaced it with direct System32 `taskkill` termination that never aborts the installer with `Failed to kill MawaBro`.
+  - Guaranteed clean NSIS execution stack by popping all `nsExec::Exec` return values (`Pop $0`).
+  - Added dedicated 64-bit System32 taskkill execution (`"$SYSDIR\taskkill.exe"`) with WOW64 redirection bypass.
+  - Ensured seamless 1st-attempt auto-update installation without requiring users to restart or retry.
+
+### **MawaBro v1.8.4 (MawaBro v1.8.4)** - *Archived (Changelog: Minor update - Fix Auto-Updater Process Race)*
 - **Resolved "Failed to kill MawaBro" Auto-Updater Abort**:
   - **Early NSIS Lifecycle Termination**: Defined `.onGUIInit` and `un.onGUIInit` hooks in `nsis-hooks.nsh` with 64-bit WOW64 redirection bypass (`DisableX64FSRedirection`), forcefully terminating any lingering `mawabro.exe` processes before Windows Restart Manager checks or `CheckIfAppIsRunning` run.
   - **Graceful Shutdown & Exit Flag in Rust**: Added `prepare_for_update` Tauri command and `SHOULD_EXIT` atomic flag in `lib.rs` to allow clean window closure and avoid `api.prevent_close()` trapping Restart Manager termination signals.
