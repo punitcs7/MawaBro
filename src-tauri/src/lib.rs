@@ -2,6 +2,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use parking_lot::RwLock;
 use serde::{Deserialize, Serialize};
+pub static SHOULD_EXIT: AtomicBool = AtomicBool::new(false);
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
@@ -242,6 +243,19 @@ pub mod commands {
         app.emit("overlay-speakers", &speakers).map_err(|e| e.to_string())?;
         Ok(())
     }
+
+    #[tauri::command]
+    pub fn prepare_for_update(app: tauri::AppHandle) -> Result<(), String> {
+        use tauri::Manager;
+        crate::SHOULD_EXIT.store(true, std::sync::atomic::Ordering::SeqCst);
+        if let Some(win) = app.get_webview_window("main") {
+            let _ = win.hide();
+        }
+        if let Some(overlay) = app.get_webview_window("overlay") {
+            let _ = overlay.hide();
+        }
+        Ok(())
+    }
 }
 
 pub fn run() {
@@ -322,7 +336,8 @@ pub fn run() {
             commands::generate_room_token,
             commands::set_overlay_visible,
             commands::set_overlay_clickthrough,
-            commands::emit_overlay_speakers
+            commands::emit_overlay_speakers,
+            commands::prepare_for_update
         ])
         .build(tauri::generate_context!())
         .expect("error while running MawaBro application");
@@ -337,6 +352,7 @@ pub fn run() {
             ..
         } => {
             if label == "main" {
+                if SHOULD_EXIT.load(Ordering::SeqCst) { return; }
                 api.prevent_close();
                 if let Some(win) = app_handle.get_webview_window(&label) {
                     let _ = win.hide();

@@ -56,7 +56,7 @@ export const UpdateModal: React.FC = () => {
     let currentDownloaded = 0;
 
     try {
-      await update.downloadAndInstall((event: DownloadEvent) => {
+      await update.download((event: DownloadEvent) => {
         switch (event.event) {
           case 'Started': {
             const len = event.data.contentLength ?? 0;
@@ -75,6 +75,13 @@ export const UpdateModal: React.FC = () => {
           }
         }
       });
+
+      try {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('prepare_for_update');
+      } catch (_) {}
+
+      await update.install({ restartAfterInstall: true });
     } catch (err: any) {
       console.error('[Updater] Download & install failed:', err);
       setErrorMsg(err?.message || 'Failed to download and install update.');

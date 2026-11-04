@@ -26,7 +26,14 @@ This document tracks the release versioning rules and history for **MawaBro**.
 
 ## 📜 Version History
 
-### **MawaBro v1.8.0 (MawaBro v1.8)** - *Current (Changelog: Minor update)*
+### **MawaBro v1.8.4 (MawaBro v1.8.4)** - *Current (Changelog: Minor update - Fix Auto-Updater Process Race)*
+- **Resolved "Failed to kill MawaBro" Auto-Updater Abort**:
+  - **Early NSIS Lifecycle Termination**: Defined `.onGUIInit` and `un.onGUIInit` hooks in `nsis-hooks.nsh` with 64-bit WOW64 redirection bypass (`DisableX64FSRedirection`), forcefully terminating any lingering `mawabro.exe` processes before Windows Restart Manager checks or `CheckIfAppIsRunning` run.
+  - **Graceful Shutdown & Exit Flag in Rust**: Added `prepare_for_update` Tauri command and `SHOULD_EXIT` atomic flag in `lib.rs` to allow clean window closure and avoid `api.prevent_close()` trapping Restart Manager termination signals.
+  - **Sequential Two-Stage Update Sequence**: Updated `UpdateModal.tsx` to separate download (`update.download()`) from installation (`update.install({ restartAfterInstall: true })`), unhooking webview listeners and hiding windows prior to spawning the installer.
+  - **Kernel Release Buffer**: Increased buffer sleep to 2.5 seconds in NSIS pre-install macros so Windows kernel completely frees file locks before writing new binaries.
+
+### **MawaBro v1.8.0 (MawaBro v1.8)** - *Archived (Changelog: Minor update)*
 - **Transparent In-Game Voice Overlay**:
   - Configured secondary Tauri desktop window (`overlay`) with transparent background, `alwaysOnTop: true`, `skipTaskbar: true`, and `decorations: false`.
   - Added click-through initialization via `window.set_ignore_cursor_events(true)` allowing full gameplay aiming and mouse pass-through.
